@@ -4,7 +4,7 @@
 ## **Установка:**
 1. Перед установкой вы должны скачать долфин с официального сайта, установить и залогинится в него оставив хотябы один свободный профиль для создания
 2. Скопировать файл app.asar из папки files по следуюущему пути
- - C:\Users\*your username*\AppData\Local\Programs\Dolphin Anty\resources
+ - C:\Users\ *your username* \AppData\Local\Programs\Dolphin Anty\resources
 3. Установить python версии 3.9-3.11, убедитесь что при установки поставили галочку "Add Python to PATH"
 4. Открыть консоль(cmd.exe) и выполнить команду pip install -r requirements.txt
 5. Закрыть долфин если он у вас открыт
