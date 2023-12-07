@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "id": 111123,
+      "teamId": 111123,
+      "username": "what@what.ru",
+      "displayName": "",
+      "telegram": "",
+      "role": "admin",
+      "teamleads": [],
+      "created_at": "2022-06-02 15:20:00",
+      "updated_at": "2023-11-26 11:07:04"
+    }
+  ],
+  "links": {
+    "first": "http:\/\/127.0.0.1:5000\/team\/users?page=1",
+    "last": "http:\/\/127.0.0.1:5000\/team\/users?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http:\/\/127.0.0.1:5000\/team\/users?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "path": "http:\/\/127.0.0.1:5000\/team\/users?page=1",
+    "per_page": 50,
+    "to": 1,
+    "total": 1
+  }
+}

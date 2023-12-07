@@ -1,0 +1,11 @@
+{
+	"success": true,
+	"data": {
+		"localapiUrl": "{\"60bafd59.zip\": \"http:\/\/127.0.0.1:5000\/dolphin-anty\/anty-connect\/releases\/download\/60bafd59\/60bafd59.zip\", \"60bafd59.zip.md5\": \"http:\/\/127.0.0.1:5000\/dolphin-anty\/anty-connect\/releases\/download\/60bafd59\/60bafd59.zip.md5\"}",
+		"frontendUrl": "http://127.0.0.1:5000/frontend/index.html",
+		"backendUrl": "http:\/\/127.0.0.1:5000",
+		"type": "production",
+		"name": "master",
+		"hash": "574b8984944c193dbf7305d5c7a90f49"
+	}
+}
