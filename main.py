@@ -14,9 +14,6 @@ from utils import *
 from config import *
 
 lines = open('files/app.ee735a2e.js', encoding='utf-8')
-'''with io.open('../files/app.ee735a2e.js', encoding='utf-8') as f:
-    lines = f.read()
-    # print(lines)'''
 
 FIRST_TIME_RUNNING = False
 
