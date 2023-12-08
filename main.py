@@ -144,7 +144,7 @@ def browser_profile_launch_methods(browser_profile_id, method):
             if (FIRST_TIME_RUNNING == True):
                 resp = send_request(
                     method='DELETE',
-                    url=REMOTE_API_BASE_URL + '/browser_profiles',
+                    url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
                     headers=request.headers,
                     payload={"ids": [browser_profile_id]},
                 )
