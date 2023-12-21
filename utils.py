@@ -3,6 +3,7 @@ import shutil
 import requests
 from time import sleep
 
+import config
 from config import *
 from settings import *
 from modules.files import Files
@@ -58,7 +59,7 @@ def check_token_expire(func):
         if (resp.status_code == 401):
             logger.error(f'METHOD: {request.method} | URL: {request.full_path}')
             return resp.text, resp.status_code
-
+        config.token = request.headers['Authorization']
         ret_val = func(*args, **kwargs)
 
         return ret_val
