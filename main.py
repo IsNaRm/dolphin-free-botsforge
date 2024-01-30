@@ -259,26 +259,7 @@ def browser_profiles():
                 Files.save_to_file(f'browsers/{browser_profile_id}/info_for_start.json', i)
                 break
 
-        send_request(
-            method='GET',
-            url=f'http://localhost:3001/v1.0/browser_profiles/{browser_profile_id}/start',
-            headers={'Authorization': request.headers['Authorization']},
-        )
-
-        send_request(
-            method='GET',
-            url=f'http://localhost:3001/v1.0/browser_profiles/{browser_profile_id}/stop',
-            headers={'Authorization': request.headers['Authorization']},
-        )
-
-        send_request(
-            method='DELETE',
-            url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
-            headers=request.headers,
-            payload={"ids": [browser_profile_id]},
-        )
-
-        logger.success(f'Успешно создался профиль #{browser_profile_id} | Запустили и оставновили')
+        logger.success(f'Успешно создался профиль #{browser_profile_id} ')
 
         return return_value
     elif request.method == 'DELETE':
@@ -364,6 +345,16 @@ def refresh_token(info=None):
 
     return resp.text
 
+
+@app.route('/force_delete/<p_id>', methods=['DELETE'])
+def force_delete(p_id):
+    r = send_request(
+        method='DELETE',
+        url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
+        headers=request.headers,
+        payload={"ids": [p_id]},
+    )
+    return r.text
 
 @app.route('/branches')
 def check_local_api():
