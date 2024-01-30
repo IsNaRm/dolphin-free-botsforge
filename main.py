@@ -1,22 +1,29 @@
 import logging
-import os
-import shutil
 import math
-import io
 
 from pathlib import Path
 
 from flask import Flask
-from flask import request
 from flask import send_file
 
-from modules.files import Files
 from utils import *
 from config import *
 
 lines = open('files/app.ee735a2e.js', encoding='utf-8')
 
 app = Flask(__name__)
+
+
+@app.after_request
+def after_request(response):
+    logger.info('>>> {} {}: {}'.format(request.method,
+                                       request.full_path,
+                                       request.data[0:100]))
+    try:
+        logger.info('<<< {}: {}'.format(response.status, response.data[0:100]))
+    except:
+        logger.info('<<< {}: data'.format(response.status))
+    return response
 
 
 @app.errorhandler(404)
@@ -237,11 +244,8 @@ def browser_profiles():
             headers=request.headers,
             payload=request.json,
         )
-
         return_value = resp.text
-
         browser_profile_id = resp.json()['browserProfileId']
-
         Path(os.path.join(os.getcwd(), 'browsers', str(browser_profile_id))).mkdir(parents=True, exist_ok=True)
 
         resp = send_request(
@@ -256,17 +260,25 @@ def browser_profiles():
                 break
 
         send_request(
+            method='GET',
+            url=f'http://localhost:3001/v1.0/browser_profiles/{browser_profile_id}/start',
+            headers={'Authorization': request.headers['Authorization']},
+        )
+
+        send_request(
+            method='GET',
+            url=f'http://localhost:3001/v1.0/browser_profiles/{browser_profile_id}/stop',
+            headers={'Authorization': request.headers['Authorization']},
+        )
+
+        send_request(
             method='DELETE',
             url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
             headers=request.headers,
             payload={"ids": [browser_profile_id]},
         )
 
-        send_request(
-            method='GET',
-            url=f'http://localhost:3001/v1.0/browser_profiles/{browser_profile_id}/start',
-        )
-        logger.success(f'Успешно создался профиль #{browser_profile_id} | Запускаю!')
+        logger.success(f'Успешно создался профиль #{browser_profile_id} | Запустили и оставновили')
 
         return return_value
     elif request.method == 'DELETE':
@@ -356,7 +368,6 @@ def refresh_token(info=None):
 @app.route('/branches')
 def check_local_api():
     local_api_info = Files.read_from_file('jsons/local_api_info.json')
-
     return local_api_info
 
 

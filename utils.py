@@ -31,7 +31,7 @@ def send_request(method, url, headers={}, payload={}, acceptable_codes=[200, 401
 
     headers_dict = dict(headers)
 
-    while True:
+    for _ in range(10):
         try:
             if method.lower() == 'get':
                 resp = session.request(method=method.lower(), url=url, headers=headers_dict)
@@ -47,6 +47,8 @@ def send_request(method, url, headers={}, payload={}, acceptable_codes=[200, 401
             logger.error(f'Unexcepted error while sending request to {url}: {error}')
 
         sleep(3)
+
+    raise Exception("failed to do request: {}, {}".format(method, url))
 
 
 def check_token_expire(func):
