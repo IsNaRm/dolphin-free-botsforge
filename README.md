@@ -24,16 +24,13 @@
 5. запускаем скрипт, затем сам долфин через squashfs-root/AppRun
 
 ## **Установка MacOS:**
-1. идем в папку программы![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/5755ee5a-a291-41cf-b45b-369970183888)
-
-2. показать содержимое пакета![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/30ddb698-74bb-47b3-bdc2-e4dbbdef98a5)
-
-3. идем в папку Contents/Resources![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/95ddd6f5-a9f4-44d9-9438-92c7856c60a0)
-
+1. идем в папку программы
+![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/5755ee5a-a291-41cf-b45b-369970183888)
+2. показать содержимое пакета
+![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/30ddb698-74bb-47b3-bdc2-e4dbbdef98a5)
+3. идем в папку Contents/Resources
+![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/95ddd6f5-a9f4-44d9-9438-92c7856c60a0)
 4. меняем файл app.asar на нужный
-5. Закрыть долфин если он у вас открыт
-6. Открыть файл start.bat
-7. Запустить Dolphin
    
 ## **Settings:**
 В файле **settings.py** вы можете настроить параметр **backup** на **True** или **False**. Если **True** при каждом закрытии браузера будет создаваться бэкап этого профиля в папке browsers_backup
