@@ -21,7 +21,7 @@
 2. 'путь к dolphin.appimage' --appimage-extract
 3. Появляется папка squashfs-root
 4. в squashfs-root/Resources заменяем app.asar
-5. запускаем скрипт, затем сам долфин через squashfs-root/AppRun
+5. запускаем python скрипт main.py, затем сам долфин через squashfs-root/AppRun
 
 ## **Установка MacOS:**
 1. идем в папку программы.
@@ -37,6 +37,7 @@
 ![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/95ddd6f5-a9f4-44d9-9438-92c7856c60a0)
 
 4. меняем файл app.asar на нужный
+5. запускаем python скрипт main.py, затем сам долфин
    
 ## **Settings:**
 В файле **settings.py** вы можете настроить параметр **backup** на **True** или **False**. Если **True** при каждом закрытии браузера будет создаваться бэкап этого профиля в папке browsers_backup
