@@ -12,7 +12,7 @@ from config import *
 lines = open('files/app.ee735a2e.js', encoding='utf-8')
 
 app = Flask(__name__)
-
+#test
 
 @app.after_request
 def after_request(response):
