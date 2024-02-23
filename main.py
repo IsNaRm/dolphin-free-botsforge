@@ -46,7 +46,10 @@ def auth():
     )
     return resp.text
 
-
+@app.route('/get_auth_token')
+def get_token():
+    return config.token
+    
 @app.route('/frontend/index.html', methods=['GET'])
 def get_index():
     path = os.path.join(os.getcwd(), 'files', 'app.ee735a2e.js')
