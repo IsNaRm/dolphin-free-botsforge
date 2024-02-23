@@ -30,7 +30,8 @@ def send_request(method, url, headers={}, payload={}, acceptable_codes=[200, 401
     session = requests.Session()
 
     headers_dict = dict(headers)
-
+    if 'Referer' in headers_dict:
+        headers_dict['Referer'] = headers_dict['Referer'].replace('http://127.0.0.1:5000', config.REMOTE_API_BASE_URL)
     for _ in range(10):
         try:
             if method.lower() == 'get':
