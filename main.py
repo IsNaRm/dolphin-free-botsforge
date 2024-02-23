@@ -168,6 +168,12 @@ def browser_profile_launch_methods(browser_profile_id, method):
         if request.json['type'] == 'stop':
             do_backup(browser_profile_id)
             result = Files.read_from_file('jsons/event_stop.json')
+            resp = send_request(
+                    method='DELETE',
+                    url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
+                    headers=request.headers,
+                    payload={"ids": [browser_profile_id]},
+                )
         else:
             result = Files.read_from_file('jsons/event_start.json')
         result['data']['browserProfileId'] = int(browser_profile_id)
