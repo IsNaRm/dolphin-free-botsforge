@@ -26,19 +26,19 @@ def do_backup(browser_profile_id):
         shutil.copytree(os.path.join(os.getcwd(), 'browsers', browser_profile_id), os.path.join(os.getcwd(), 'browsers_backup', browser_profile_id), dirs_exist_ok=True)
 
 
-def send_request(method, url, headers={}, payload={}):
+def send_request(method, url, headers={}, payload={}, acceptable_codes=[200, 401]):
     session = requests.Session()
 
     headers_dict = dict(headers)
 
-    while True:
+    for _ in range(10):
         try:
-            if (method.lower() == 'get'):
+            if method.lower() == 'get':
                 resp = session.request(method=method.lower(), url=url, headers=headers_dict)
             else:
                 resp = session.request(method=method.lower(), url=url, headers=headers_dict, json=payload)
 
-            if (resp.status_code in (200, 401)):
+            if resp.status_code in acceptable_codes:
                 return resp
             else:
                 logger.error(f'Bad request status code: {resp.status_code} | Method: {method} | Response: {resp.text} | Url: {url} | Headers: {headers_dict} | Payload: {payload} | OLD HEADERS: {headers}')
@@ -47,6 +47,8 @@ def send_request(method, url, headers={}, payload={}):
             logger.error(f'Unexcepted error while sending request to {url}: {error}')
 
         sleep(3)
+
+    raise Exception("failed to do request: {}, {}".format(method, url))
 
 
 def check_token_expire(func):
