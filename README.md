@@ -10,7 +10,7 @@
 2. Скопировать файл app.asar из папки files по одному из следуюущих путей
  - C:\Users\ *your username* \AppData\Local\Programs\Dolphin Anty\resources
  - C:\Program Files\Dolphin Anty\resources
-3. Установить python версии 3.9-3.11 (**3.12 работать не будет!!**), убедитесь что при установки поставили галочку "Add Python to PATH"
+3. Установить python, убедитесь что при установки поставили галочку "Add Python to PATH"
 4. Открыть консоль вписав cmd вместо пути и выполнить команду pip install -r requirements.txt
    ![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/15e32e4f-f79a-426d-a7bd-3d0c07ad70a7)
 
