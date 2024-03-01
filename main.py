@@ -267,7 +267,12 @@ def browser_profiles():
                 Files.save_to_file(f'browsers/{browser_profile_id}/info_for_start.json', i)
                 break
 
-        logger.success(f'Успешно создался профиль #{browser_profile_id} ')
+        resp = send_request(
+            method='GET',
+            url=f'http://localhost:3001/v1.0/browser_profiles/{browser_profile_id}/start',
+        )
+
+        logger.success(f'Успешно создался профиль #{browser_profile_id} | Запускаю!')
 
         return return_value
     elif request.method == 'DELETE':
