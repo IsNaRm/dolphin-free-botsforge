@@ -7,9 +7,10 @@
 
 ## **Установка Windows:**
 1. Перед установкой вы должны скачать долфин с официального сайта, установить и залогинится в него оставив хотябы один свободный профиль для создания
-2. Скопировать файл app.asar из папки files по одному из следуюущих путей
- - C:\Users\ *your username* \AppData\Local\Programs\Dolphin Anty\resources
+2. Скопировать файл app.asar из папки files в папку resources по одному из следуюущих путей, проще всего найти нажав ПКМ на ярлык долфина -> расположение файлф
+ - C:\Users\%username%\AppData\Local\Programs\Dolphin Anty\resources
  - C:\Program Files\Dolphin Anty\resources
+3. Разархивировать архив files\168.rar по одному из пути "C:\Users\%username%\AppData\Roaming\dolphin_anty\browser\", эта папка удаляется при запуске оригинального долфина, поэтому если серые кнопки нужно повторить процедуру.
 3. Установить python версии 3.10-3.11 (3.12 работать не будет), убедитесь что при установки поставили галочку "Add Python to PATH"
 4. Открыть консоль вписав cmd вместо пути и выполнить команду pip install -r requirements.txt
    ![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/15e32e4f-f79a-426d-a7bd-3d0c07ad70a7)
