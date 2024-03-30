@@ -1,5 +1,6 @@
 import logging
 import math
+import os
 
 from pathlib import Path
 
@@ -70,6 +71,7 @@ def get_front(folder, file):
 
     print(file)
 
+    local_files = os.listdir('files')
     if file == 'app.ee735a2e.js':
         return lines
 
@@ -153,8 +155,11 @@ def sync_methods():
 
 @app.route('/download_datadir/<browser_profile_id>')
 def upload_archive(browser_profile_id):
-    file_path = f'browsers/{browser_profile_id}/{browser_profile_id}.datadir.zip'
-
+    try:
+        file_path = f'browsers/{browser_profile_id}/{browser_profile_id}.datadir.zip'
+    except Exception as ex:
+        logger.error(f'Профиль {browser_profile_id} Сломан')
+        return send_file('jsons/browser_profile_not_found.json', as_attachment=True)
     return send_file(file_path, as_attachment=True)
 
 
@@ -168,12 +173,6 @@ def browser_profile_launch_methods(browser_profile_id, method):
         if request.json['type'] == 'stop':
             do_backup(browser_profile_id)
             result = Files.read_from_file('jsons/event_stop.json')
-            resp = send_request(
-                    method='DELETE',
-                    url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
-                    headers=request.headers,
-                    payload={"ids": [browser_profile_id]},
-                )
         else:
             result = Files.read_from_file('jsons/event_start.json')
         result['data']['browserProfileId'] = int(browser_profile_id)
@@ -193,6 +192,7 @@ def download_archive():
 
         successfull_upload = Files.read_from_file('jsons/successfull_upload.json')
         successfull_upload['browserProfileId'] = browser_profile_id
+
 
         return successfull_upload
 
@@ -219,8 +219,11 @@ def browser_profiles():
                                                                                                     settings['limit']
 
         for i in profiles[first_profile:last_profile]:
-            profile_info = Files.read_from_file(f'browsers/{i}/info_for_start.json')
-            all_profiles['data'].append(profile_info)
+            try:
+                profile_info = Files.read_from_file(f'browsers/{i}/info_for_start.json')
+                all_profiles['data'].append(profile_info)
+            except Exception as ex:
+                logger.error(f'Профиль ID {i} сломан')
 
         if ('sortBy' in settings):
             sort_profiles(settings, all_profiles)
@@ -374,13 +377,55 @@ def check_local_api():
     local_api_info = Files.read_from_file('jsons/local_api_info.json')
     return local_api_info
 
+@app.route('/fingerprints/<info>', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+def fingerprint(info=None):
+    resp = send_request(
+        method='GET',
+        url=REMOTE_API_BASE_URL + '/browser_profiles?page=1&limit=100',
+        headers=request.headers
+    )
 
+    profiles_original = resp.json()['data']
+
+    resp = send_request(
+        method='GET',
+        url='http://127.0.0.1:5000/browser_profiles?page=1&limit=100',
+        headers=request.headers
+    )
+    profiles_script = resp.json()['data']
+    for i in range(1, (resp.json()['total']+100)//100):
+        resp = send_request(
+            method='GET',
+            url=f'http://127.0.0.1:5000/browser_profiles?page={i+1}&limit=100',
+            headers=request.headers
+        )
+        for profile in resp.json()['data']:
+            profiles_script.append(profile)
+
+    for profile_original in profiles_original:
+        for profile_script in profiles_script:
+            if profile_original['id'] == profile_script['id']:
+                r = send_request(
+                    method='DELETE',
+                    url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
+                    headers=request.headers,
+                    payload={"ids": [profile_original['id']]},
+                )
+    resp = send_request(
+        method=request.method,
+        url=REMOTE_API_BASE_URL + request.full_path,
+        headers=request.headers,
+        payload={} if request.method == 'GET' else request.json,
+    )
+
+    return resp.text
 @app.route('/proxy', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 @app.route('/proxy/<info>/last_check', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 @app.route('/extensions', methods=['GET', 'POST', 'DELETE', 'PATCH'])
-@app.route('/fingerprints/<info>', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 @app.route('/bookmarks', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 @app.route('/bookmarks/<info>', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+@app.route('/browser_profiles/check-old-useragents', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+@app.route('/browser_profiles/upgrade-old-useragents', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 @check_token_expire
 def scripts(info=None):
     resp = send_request(
