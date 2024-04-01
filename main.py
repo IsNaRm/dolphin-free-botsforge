@@ -237,11 +237,11 @@ def browser_profiles():
         if (settings['page'] * settings['limit'] > len(profiles)):
             all_profiles['next_page_url'] = None
         else:
-            all_profiles['next_page_url'] = f'http:\/\/127.0.0.1:5000\/browser_profiles?page={settings["page"] + 1}'
+            all_profiles['next_page_url'] = f'http://127.0.0.1:5000/browser_profiles?page={settings["page"] + 1}'
         if (settings['page'] == 1):
             all_profiles['prev_page_url'] = None
         else:
-            all_profiles['prev_page_url'] = f'http:\/\/127.0.0.1:5000\/browser_profiles?page={settings["page"] - 1}'
+            all_profiles['prev_page_url'] = f'http://127.0.0.1:5000/browser_profiles?page={settings["page"] - 1}'
 
         all_profiles['to'] = last_profile
         all_profiles['last_page'] = math.ceil(len(profiles) / settings['limit'])
