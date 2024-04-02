@@ -42,7 +42,13 @@
 ![image](https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/95ddd6f5-a9f4-44d9-9438-92c7856c60a0)
 
 4. меняем файл app.asar на нужный
-5. запускаем python скрипт main.py, затем сам долфин
+5. Закидываем папку 168 в папку browsers оригинального долфина, как ее найти вот видео
+
+
+https://github.com/IsNaRm/dolphin-free-botsforge/assets/11133034/12c5ee9e-3e48-45a2-9308-c471b98a7c1b
+
+
+6. запускаем python скрипт main.py, затем сам долфин
    
 ## **Settings:**
 В файле **settings.py** вы можете настроить параметр **backup** на **True** или **False**. Если **True** при каждом закрытии браузера будет создаваться бэкап этого профиля в папке browsers_backup
