@@ -24,6 +24,8 @@ def get_path_files(path):
 def do_backup(browser_profile_id):
     if (backup is True):
         shutil.copytree(os.path.join(os.getcwd(), 'browsers', browser_profile_id), os.path.join(os.getcwd(), 'browsers_backup', browser_profile_id), dirs_exist_ok=True)
+        headers_dict.pop('Host')
+        headers_dict['machineid'] = headers_dict['Referer'].split('machineId=')[1].split('&')[0]
 
 
 def send_request(method, url, headers={}, payload={}, acceptable_codes=[200, 401]):
