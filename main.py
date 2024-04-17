@@ -377,40 +377,46 @@ def check_local_api():
     local_api_info = Files.read_from_file('jsons/local_api_info.json')
     return local_api_info
 
-@app.route('/fingerprints/<info>', methods=['GET', 'POST', 'DELETE', 'PATCH'])
-def fingerprint(info=None):
-    resp = send_request(
-        method='GET',
-        url=REMOTE_API_BASE_URL + '/browser_profiles?page=1&limit=100',
-        headers=request.headers
-    )
-
-    profiles_original = resp.json()['data']
-
-    resp = send_request(
-        method='GET',
-        url='http://127.0.0.1:5000/browser_profiles?page=1&limit=100',
-        headers=request.headers
-    )
-    profiles_script = resp.json()['data']
-    for i in range(1, (resp.json()['total']+100)//100):
+def check_duplicate():
+    try:
         resp = send_request(
             method='GET',
-            url=f'http://127.0.0.1:5000/browser_profiles?page={i+1}&limit=100',
+            url=REMOTE_API_BASE_URL + '/browser_profiles?page=1&limit=100',
             headers=request.headers
         )
-        for profile in resp.json()['data']:
-            profiles_script.append(profile)
 
-    for profile_original in profiles_original:
-        for profile_script in profiles_script:
-            if profile_original['id'] == profile_script['id']:
-                r = send_request(
-                    method='DELETE',
-                    url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
-                    headers=request.headers,
-                    payload={"ids": [profile_original['id']]},
-                )
+        profiles_original = resp.json()['data']
+
+        resp = send_request(
+            method='GET',
+            url='http://127.0.0.1:5000/browser_profiles?page=1&limit=100',
+            headers=request.headers
+        )
+        profiles_script = resp.json()['data']
+        for i in range(1, (resp.json()['total']+100)//100):
+            resp = send_request(
+                method='GET',
+                url=f'http://127.0.0.1:5000/browser_profiles?page={i+1}&limit=100',
+                headers=request.headers
+            )
+            for profile in resp.json()['data']:
+                profiles_script.append(profile)
+
+        for profile_original in profiles_original:
+            for profile_script in profiles_script:
+                if profile_original['id'] == profile_script['id']:
+                    r = send_request(
+                        method='DELETE',
+                        url=REMOTE_API_BASE_URL + '/browser_profiles?forceDelete=1',
+                        headers=request.headers,
+                        payload={"ids": [profile_original['id']]},
+                    )
+    except:
+        pass
+@app.route('/fingerprints/<info>', methods=['GET', 'POST', 'DELETE', 'PATCH'])
+def fingerprint(info=None):
+    Thread(target=check_duplicate).start()
+
     resp = send_request(
         method=request.method,
         url=REMOTE_API_BASE_URL + request.full_path,
