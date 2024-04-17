@@ -9,7 +9,7 @@ from flask import send_file
 
 from utils import *
 from config import *
-
+from threading import Thread
 lines = open('files/app.ee735a2e.js', encoding='utf-8')
 
 app = Flask(__name__)
