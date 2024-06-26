@@ -3,6 +3,7 @@ import math
 import os
 
 from pathlib import Path
+import time
 
 from flask import Flask
 from flask import send_file
@@ -276,6 +277,14 @@ def browser_profiles():
         )
 
         logger.success(f'Успешно создался профиль #{browser_profile_id} | Запускаю!')
+
+        time.sleep(5)
+
+        resp = send_request(
+            method='DELETE',
+            url=f'{REMOTE_API_BASE_URL}/browser_profiles/{browser_profile_id}?forceDelete=1',
+            headers={'Authorization': request.headers['Authorization']},
+        )
 
         return return_value
     elif request.method == 'DELETE':
